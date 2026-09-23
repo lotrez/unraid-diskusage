@@ -1,6 +1,13 @@
 <?php
 // diskusage plugin - AJAX endpoint
-// actions: start (POST+CSRF), stop (POST+CSRF), status (GET), result (GET)
+// actions: start (POST), stop (POST), status (GET), result (GET)
+//
+// CSRF: every POST is validated globally by the webGUI before this script runs
+// (php.ini auto_prepend_file -> webGui/include/local_prepend.php). On success
+// that gate UNSETS $_POST['csrf_token'] and the X-CSRF-Token header, so this
+// script must NOT re-check the token: a local check can never see it and would
+// reject every otherwise-valid POST with a 403. The browser's token is injected
+// into all same-origin jQuery POSTs by the webGUI's $.ajaxPrefilter.
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -29,13 +36,6 @@ function scan_pid() {
     @shell_exec('kill -0 ' . $pid . ' 2>/dev/null');
     exec('kill -0 ' . $pid . ' 2>/dev/null', $o, $rc);
     return $rc === 0 ? $pid : 0;
-}
-
-function csrf_ok() {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') return true;
-    $var = @parse_ini_file('/var/local/emhttp/var.ini');
-    $token = is_array($var) && isset($var['csrf_token']) ? $var['csrf_token'] : '';
-    return $token !== '' && isset($_POST['csrf_token']) && hash_equals($token, $_POST['csrf_token']);
 }
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
@@ -78,7 +78,6 @@ case 'log':
     break;
 
 case 'start':
-    if (!csrf_ok()) fail(403, 'invalid security token - refresh the page');
     if (scan_pid() > 0) fail(409, 'a scan is already running');
 
     $path = isset($_POST['path']) ? $_POST['path'] : '';
@@ -119,7 +118,6 @@ case 'start':
     break;
 
 case 'stop':
-    if (!csrf_ok()) fail(403, 'invalid security token - refresh the page');
     $pid = scan_pid();
     if ($pid <= 0) fail(409, 'no scan is running');
     exec('kill -TERM ' . $pid . ' 2>/dev/null', $o, $rc);

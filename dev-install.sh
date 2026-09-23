@@ -21,7 +21,7 @@ cp -R "$SRC"/. "$DST"/
 chmod 755 "$DST"/scripts/*.sh "$DST"/event/* 2>/dev/null || true
 
 echo "installed -> $DST"
-echo "Refresh the webGUI: Settings -> Disk Usage"
+echo "Refresh the webGUI: Disk Usage (top menu bar)"
 echo ""
 echo "NOTE: files live in RAM and vanish on reboot. For a permanent install:"
 echo "  ./build.sh && plugin install ./diskusage.plg"

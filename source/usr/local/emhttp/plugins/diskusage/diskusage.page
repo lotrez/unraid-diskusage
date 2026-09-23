@@ -1,12 +1,14 @@
-Menu="Settings"
+Menu="Tasks:85"
+Name="Disk Usage"
 Title="Disk Usage"
+Type="xmenu"
 Icon="pie-chart"
-Type="php"
+Tag="fa-chart-pie"
+Code="f200"
 ---
 <?php
 $plugin = "diskusage";
 $cfg    = parse_plugin_cfg($plugin);
-$csrf   = isset($var['csrf_token']) ? $var['csrf_token'] : '';
 
 $scanPath = isset($cfg['SCAN_PATH']) ? $cfg['SCAN_PATH'] : '/mnt/user';
 $minFile  = isset($cfg['MIN_FILE']) ? (string)$cfg['MIN_FILE'] : '1048576';
@@ -55,7 +57,7 @@ $choices  = ['65536' => '64 KB', '262144' => '256 KB', '1048576' => '1 MB', '419
   <div class="du-meta" id="duMeta"></div>
 </div>
 
-<script>window.DU_CFG = {token: <?=json_encode($csrf)?>, api: "/plugins/diskusage/php/api.php"};</script>
+<script>window.DU_CFG = {api: "/plugins/diskusage/php/api.php"};</script>
 <script src="<?autov('/plugins/diskusage/javascript/echarts.min.js')?>"></script>
 <script src="<?autov('/plugins/diskusage/javascript/du-core.js')?>"></script>
 <script src="<?autov('/plugins/diskusage/javascript/du-page.js')?>"></script>

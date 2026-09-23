@@ -4,7 +4,7 @@ A WinDirStat-style disk usage analyzer for Unraid — because the forum threads 
 for one ([2016](https://forums.unraid.net/topic/45743-utility-like-windirstat/),
 [2019](https://forums.unraid.net/topic/72186-windirstat-for-unraid)) were never answered.
 
-Adds **Settings → Disk Usage** to the Unraid webGUI:
+Adds a standalone **Disk Usage** entry to the top menu bar of the Unraid webGUI:
 
 - **Treemap** of any share, disk or folder — rectangles sized by disk usage, colored by file type, double-click to drill down
 - **Folder tree** with sizes and percentages
@@ -14,7 +14,19 @@ Adds **Settings → Disk Usage** to the Unraid webGUI:
 
 ## Install
 
-### A. Permanent (recommended): one self-contained plugin file
+### A. From URL (easiest)
+
+In the webGUI: **Plugins → Add Plugin → Enter URL of remote plugin file**:
+
+```
+https://raw.githubusercontent.com/lotrez/unraid-diskusage/main/diskusage.plg
+```
+
+The `.plg` embeds its own payload (base64 tar.gz), so that one file is the whole
+plugin. It survives reboots (Unraid re-runs the plg from the flash drive at boot)
+and the `pluginURL` above makes the Plugins page check GitHub for updates.
+
+### B. Permanent from a local build
 
 ```bash
 # on your Mac (or anywhere): build the plugin
@@ -27,10 +39,7 @@ bash /tmp/unraid-diskusage/build.sh          # rebuild on-server (tar/base64) �
 plugin install /tmp/unraid-diskusage/diskusage.plg
 ```
 
-The `.plg` embeds its own payload (base64 tar.gz), so `plugin install` is all it takes.
-It survives reboots (Unraid re-runs the plg from the flash drive at boot).
-
-### B. Quick dev install (for iterating)
+### C. Quick dev install (for iterating)
 
 ```bash
 scp -r . root@tower:/tmp/unraid-diskusage
@@ -47,7 +56,7 @@ or `plugin remove diskusage.plg`.
 
 ## Usage
 
-1. Settings → **Disk Usage**
+1. **Disk Usage** in the top menu bar
 2. Pick a path:
    - `/mnt/user` — the merged view of all shares (what you'd see over SMB)
    - `/mnt/disk2` — a single physical disk (fastest way to find what's filling *that* disk)
@@ -93,8 +102,9 @@ diskusage.plg                generated, self-contained installer (build.sh)
 build.sh                     builds the plg from source/
 dev-install.sh               quick non-persistent install for development
 source/usr/local/emhttp/plugins/diskusage/
-  diskusage.page             webGUI page (Settings → Disk Usage)
-  php/api.php                start/stop/status/result endpoint (CSRF-protected)
+  diskusage.page             webGUI page (standalone top-menu entry)
+  php/api.php                start/stop/status/result endpoint (CSRF handled by
+                             the webGUI's global POST gate)
   scripts/scan.sh            find + awk scanner → lastscan.tsv
   javascript/du-core.js      TSV → tree → ECharts treemap + panes (no jQuery)
   javascript/du-page.js      page glue: AJAX, status polling

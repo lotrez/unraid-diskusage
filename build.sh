@@ -42,7 +42,9 @@ cat > "$OUT" <<EOF
 <!ENTITY name        "$PLUGIN">
 <!ENTITY author      "$AUTHOR">
 <!ENTITY version     "$VERSION">
-<!ENTITY launch      "Settings/$PLUGIN">
+<!ENTITY launch      "$PLUGIN">
+<!ENTITY pluginURL   "https://raw.githubusercontent.com/lotrez/unraid-diskusage/main/$PLUGIN.plg">
+<!ENTITY project     "https://github.com/lotrez/unraid-diskusage">
 <!ENTITY pluginLOC   "/boot/config/plugins/&name;">
 <!ENTITY emhttpLOC   "/usr/local/emhttp/plugins/&name;">
 ]>
@@ -51,12 +53,18 @@ cat > "$OUT" <<EOF
          author="&author;"
          version="&version;"
          launch="&launch;"
+         pluginURL="&pluginURL;"
+         project="&project;"
+         readme="&project;#readme"
          icon="pie-chart"
          min="6.9.0"
 >
 
 <CHANGES>
 ### $VERSION
+- Standalone entry in the top menu bar (was under Settings -> Disk Usage)
+- Fix: every POST failed with "security token expired" (the webGUI already
+  validates CSRF globally and strips the token before the script runs)
 - WinDirStat-style treemap, folder tree, extension legend, largest files
 - Background scanner with live progress (find + awk, GNU/BSD compatible)
 - Allocated vs apparent size toggle
@@ -88,7 +96,7 @@ chmod +x &emhttpLOC;/scripts/*.sh &emhttpLOC;/event/* 2>/dev/null || true
 echo ""
 echo "----------------------------------------------------"
 echo " &name; &version; installed."
-echo " Open Settings -> Disk Usage in the webGUI."
+echo " Open Disk Usage in the top menu bar."
 echo "----------------------------------------------------"
 echo ""
 exit 0
