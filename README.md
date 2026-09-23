@@ -102,7 +102,9 @@ diskusage.plg                generated, self-contained installer (build.sh)
 build.sh                     builds the plg from source/
 dev-install.sh               quick non-persistent install for development
 source/usr/local/emhttp/plugins/diskusage/
-  diskusage.page             webGUI page (standalone top-menu entry)
+  DiskUsage.page           webGUI page (standalone top-menu entry; filename
+                           MUST start uppercase — nginx only routes URLs
+                           matching ^/[A-Z] to template.php)
   php/api.php                start/stop/status/result endpoint (CSRF handled by
                              the webGUI's global POST gate)
   scripts/scan.sh            find + awk scanner → lastscan.tsv

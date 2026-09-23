@@ -42,7 +42,7 @@ cat > "$OUT" <<EOF
 <!ENTITY name        "$PLUGIN">
 <!ENTITY author      "$AUTHOR">
 <!ENTITY version     "$VERSION">
-<!ENTITY launch      "$PLUGIN">
+<!ENTITY launch      "DiskUsage">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/lotrez/unraid-diskusage/main/$PLUGIN.plg">
 <!ENTITY project     "https://github.com/lotrez/unraid-diskusage">
 <!ENTITY pluginLOC   "/boot/config/plugins/&name;">
