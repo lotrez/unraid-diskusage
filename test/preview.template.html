@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>diskusage — offline preview</title>
+<style>
+  body { background: #11141a; color: #dfe3ea; margin: 0;
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color: #6fb3ea; }
+</style>
+<link rel="stylesheet" href="../source/usr/local/emhttp/plugins/diskusage/styles/diskusage.css">
+</head>
+<body>
+<div class="du-wrap">
+  <div class="du-head">
+    <span class="du-title">Disk Usage Analyzer — offline preview</span>
+    <span class="du-hint">same du-core.js the Unraid plugin uses; data embedded from this machine's scan</span>
+  </div>
+
+  <div class="du-mapbar">
+    <span id="duCrumbs" class="du-crumbs"></span>
+    <span id="duMetric" class="du-metric"></span>
+  </div>
+  <div class="du-pane du-map"><div id="duMap"></div><div id="duMapEmpty" class="du-empty">no data</div><div id="duSel" class="du-sel"></div></div>
+
+  <div class="du-row2">
+    <div class="du-pane du-tree" id="duTree"></div>
+    <div class="du-side">
+      <div class="du-pane du-ext" id="duExt"></div>
+      <div class="du-pane du-top" id="duTop"></div>
+    </div>
+  </div>
+
+  <div class="du-meta" id="duMeta"></div>
+</div>
+
+<script type="text/plain" id="duData">__TSV_DATA__</script>
+<script>window.__DU_STATUS__ = __STATUS__;</script>
+<script src="../source/usr/local/emhttp/plugins/diskusage/javascript/echarts.min.js"></script>
+<script src="../source/usr/local/emhttp/plugins/diskusage/javascript/du-core.js"></script>
+<script>
+(function () {
+    var text = document.getElementById('duData').textContent;
+    var recs = DU.parse(text);
+    var built = DU.build(recs);
+    var sum = recs.sum || {};
+    var st = window.__DU_STATUS__ || {};
+    DU.render({
+        map: document.getElementById('duMap'),
+        empty: document.getElementById('duMapEmpty'),
+        tree: document.getElementById('duTree'),
+        ext: document.getElementById('duExt'),
+        top: document.getElementById('duTop'),
+        crumbs: document.getElementById('duCrumbs'),
+        metric: document.getElementById('duMetric'),
+        meta: document.getElementById('duMeta'),
+        sel: document.getElementById('duSel')
+    }, built, {
+        text: [st.root || '',
+               (sum.entries || 0) + ' entries',
+               DU.fmt(built.root.tA) + ' allocated',
+               st.elapsed != null ? 'scanned in ' + st.elapsed + 's' : ''].join('  ·  ')
+    });
+})();
+</script>
+</body>
+</html>

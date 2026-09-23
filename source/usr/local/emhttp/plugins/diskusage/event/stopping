@@ -1,0 +1,4 @@
+#!/bin/bash
+# stop any running diskusage scan when the array stops
+[ -f /boot/config/plugins/diskusage/scan.pid ] && kill "$(cat /boot/config/plugins/diskusage/scan.pid)" 2>/dev/null
+exit 0

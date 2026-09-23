@@ -1,0 +1,10 @@
+# generated test artifacts (recreate with test/make_fixture.sh / test/run_tests.sh)
+test/fixture/
+test/out/
+test/preview-shot*.png
+
+# editor / OS noise
+.DS_Store
+._*
+*~
+*.swp

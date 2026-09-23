@@ -1,0 +1,61 @@
+Menu="Settings"
+Title="Disk Usage"
+Icon="pie-chart"
+Type="php"
+---
+<?php
+$plugin = "diskusage";
+$cfg    = parse_plugin_cfg($plugin);
+$csrf   = isset($var['csrf_token']) ? $var['csrf_token'] : '';
+
+$scanPath = isset($cfg['SCAN_PATH']) ? $cfg['SCAN_PATH'] : '/mnt/user';
+$minFile  = isset($cfg['MIN_FILE']) ? (string)$cfg['MIN_FILE'] : '1048576';
+$choices  = ['65536' => '64 KB', '262144' => '256 KB', '1048576' => '1 MB', '4194304' => '4 MB', '16777216' => '16 MB'];
+?>
+<link rel="stylesheet" type="text/css" href="<?autov('/plugins/diskusage/styles/diskusage.css')?>">
+
+<div class="du-wrap">
+  <div class="du-head">
+    <span class="du-title">Disk Usage Analyzer</span>
+    <span class="du-hint">WinDirStat-style view of any share, disk or folder &mdash; scan can take a while on large arrays</span>
+  </div>
+
+  <div class="du-controls">
+    <label class="du-field">
+      <span>Path</span>
+      <input type="text" id="duPath" value="<?=htmlspecialchars($scanPath, ENT_QUOTES)?>" data-pickroot="/mnt" data-pickfolders="true" spellcheck="false">
+    </label>
+    <label class="du-field">
+      <span>Smallest individual file</span>
+      <select id="duMinFile">
+        <?php foreach ($choices as $val => $lbl): ?>
+        <?=mk_option($minFile, $val, $lbl)?>
+        <?php endforeach; ?>
+      </select>
+    </label>
+    <input type="button" id="duScan" class="du-btn du-btn-primary" value="Scan">
+    <input type="button" id="duStop" class="du-btn" value="Stop" disabled>
+    <span id="duStatus" class="du-status">No scan yet.</span>
+  </div>
+
+  <div class="du-mapbar">
+    <span id="duCrumbs" class="du-crumbs"></span>
+    <span id="duMetric" class="du-metric"></span>
+  </div>
+  <div class="du-pane du-map"><div id="duMap"></div><div id="duMapEmpty" class="du-empty">Press <b>Scan</b> to build the treemap.</div><div id="duSel" class="du-sel"></div></div>
+
+  <div class="du-row2">
+    <div class="du-pane du-tree" id="duTree"><div class="du-empty">Folders will appear here.</div></div>
+    <div class="du-side">
+      <div class="du-pane du-ext" id="duExt"><div class="du-empty">File types will appear here.</div></div>
+      <div class="du-pane du-top" id="duTop"><div class="du-empty">Largest files will appear here.</div></div>
+    </div>
+  </div>
+
+  <div class="du-meta" id="duMeta"></div>
+</div>
+
+<script>window.DU_CFG = {token: <?=json_encode($csrf)?>, api: "/plugins/diskusage/php/api.php"};</script>
+<script src="<?autov('/plugins/diskusage/javascript/echarts.min.js')?>"></script>
+<script src="<?autov('/plugins/diskusage/javascript/du-core.js')?>"></script>
+<script src="<?autov('/plugins/diskusage/javascript/du-page.js')?>"></script>

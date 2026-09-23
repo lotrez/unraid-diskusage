@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>diskusage — offline preview</title>
+<style>
+  body { background: #11141a; color: #dfe3ea; margin: 0;
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color: #6fb3ea; }
+</style>
+<link rel="stylesheet" href="../source/usr/local/emhttp/plugins/diskusage/styles/diskusage.css">
+</head>
+<body>
+<div class="du-wrap">
+  <div class="du-head">
+    <span class="du-title">Disk Usage Analyzer — offline preview</span>
+    <span class="du-hint">same du-core.js the Unraid plugin uses; data embedded from this machine's scan</span>
+  </div>
+
+  <div class="du-mapbar">
+    <span id="duCrumbs" class="du-crumbs"></span>
+    <span id="duMetric" class="du-metric"></span>
+  </div>
+  <div class="du-pane du-map"><div id="duMap"></div><div id="duMapEmpty" class="du-empty">no data</div><div id="duSel" class="du-sel"></div></div>
+
+  <div class="du-row2">
+    <div class="du-pane du-tree" id="duTree"></div>
+    <div class="du-side">
+      <div class="du-pane du-ext" id="duExt"></div>
+      <div class="du-pane du-top" id="duTop"></div>
+    </div>
+  </div>
+
+  <div class="du-meta" id="duMeta"></div>
+</div>
+
+<script type="text/plain" id="duData">D	0	256	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture
+D	0	128	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D
+F	32768	30000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D/my file 1.mp3
+D	0	96	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D/nested
+F	73728	70000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D/nested/track.flac
+D	0	128	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A
+D	0	1344	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/small
+F	503808	500000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/big.mkv
+D	0	64	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/emptydir
+D	0	160	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/C
+F	20480	20000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/C/notes.pdf
+D	0	96	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/E
+B	4096	500	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/E
+D	0	96	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/B
+F	53248	50000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/B/mid.zip
+E	zip	53248	50000	1
+E	txt	163840	20000	40
+E	mp3	32768	30000	1
+E	flac	73728	70000	1
+E	pdf	20480	20000	1
+E	mkv	503808	500000	1
+E	db	4096	500	1
+T	20480	20000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/C/notes.pdf
+T	32768	30000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D/my file 1.mp3
+T	503808	500000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/A/big.mkv
+T	73728	70000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/dir D/nested/track.flac
+T	53248	50000	/Users/lucien/Documents/coding/unraid-diskusage/test/fixture/B/mid.zip
+S	55	46	9	41
+</script>
+<script>window.__DU_STATUS__ = {"state":"done","root":"/Users/lucien/Documents/coding/unraid-diskusage/test/fixture","entries":55,"files":46,"dirs":9,"bucketed":41,"start":1790155162,"elapsed":0,"minfile":10000};</script>
+<script src="../source/usr/local/emhttp/plugins/diskusage/javascript/echarts.min.js"></script>
+<script src="../source/usr/local/emhttp/plugins/diskusage/javascript/du-core.js"></script>
+<script>
+(function () {
+    var text = document.getElementById('duData').textContent;
+    var recs = DU.parse(text);
+    var built = DU.build(recs);
+    var sum = recs.sum || {};
+    var st = window.__DU_STATUS__ || {};
+    DU.render({
+        map: document.getElementById('duMap'),
+        empty: document.getElementById('duMapEmpty'),
+        tree: document.getElementById('duTree'),
+        ext: document.getElementById('duExt'),
+        top: document.getElementById('duTop'),
+        crumbs: document.getElementById('duCrumbs'),
+        metric: document.getElementById('duMetric'),
+        meta: document.getElementById('duMeta'),
+        sel: document.getElementById('duSel')
+    }, built, {
+        text: [st.root || '',
+               (sum.entries || 0) + ' entries',
+               DU.fmt(built.root.tA) + ' allocated',
+               st.elapsed != null ? 'scanned in ' + st.elapsed + 's' : ''].join('  ·  ')
+    });
+})();
+</script>
+</body>
+</html>
